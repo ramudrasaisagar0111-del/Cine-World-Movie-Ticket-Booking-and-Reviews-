@@ -16,7 +16,7 @@ The project is designed with a cinematic dark theme UI and focuses on responsive
 - Movie filtering by category
 - Responsive movie grid layout
 
-## 🎥 Movie Details Page
+##  Movie Details Page
 - Detailed movie descriptions
 - IMDb ratings
 - Cast information
@@ -77,6 +77,6 @@ CineWorld/
 |-contact.html
 |-interstellar.jpeg
 |-oppenheimer.jpeg
-│-dune2.jpeg
+|-dune2.jpeg
 |-darkknight.webp
 |- README.md
