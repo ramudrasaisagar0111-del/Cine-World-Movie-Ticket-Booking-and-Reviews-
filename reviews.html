@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineWorld | Reviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;
+  --surface:#0d1018;
+  --card:#12151e;
+  --card2:#181c28;
+  --red:#e50914;
+  --red2:#9f0610;
+  --gold:#f5c518;
+  --green:#4caf50;
+  --text:#efefef;
+  --muted:#888fa0;
+  --faint:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.14);
+  --r:10px;
+  --rl:14px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+line-height:1.6;
+-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;
+  color:inherit;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:#252830;
+  border-radius:2px;}
+
+
+.navbar{display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 5%;
+  background:rgba(7,9,15,.97);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(16px);}
+.logo{font-family:'Bebas Neue',sans-serif;
+font-size:22px;
+letter-spacing:2.5px;}
+.logo span{color:var(--red);}
+.nav-links{display:flex;
+  gap:3px;
+  flex-wrap:wrap;}
+.nav-link{display:inline-block;
+  padding:7px 13px;
+  font-size:13px;
+  color:var(--muted);
+  border-radius:8px;
+  transition:background .15s,color .15s;}
+.nav-link:hover{background:var(--faint);
+  color:var(--text);}
+.nav-link.active{color:var(--red);
+  background:rgba(229,9,20,.1);}
+
+
+.switcher-bar{display:flex;
+  overflow-x:auto;
+  border-bottom:1px solid var(--border);
+  padding:0 5%;}
+.sw-tab{display:flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 16px 12px;
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:color .15s,border-color .15s;
+  font-family:'DM Sans',sans-serif;}
+.sw-tab:hover{color:var(--text);}
+.sw-tab.active{color:var(--text);
+  border-bottom-color:var(--red);}
+
+.rev-layout{max-width:720px;
+  margin:0 auto;
+  padding:32px 5% 60px;}
+
+
+.rev-movie-bar{display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  padding:14px 18px;
+  margin-bottom:22px;
+  flex-wrap:wrap;}
+.rev-movie-icon{font-size:30px;
+  flex-shrink:0;}
+.rev-movie-title{font-size:16px;
+  font-weight:500;}
+.rev-movie-sub{font-size:12px;
+  color:var(--muted);}
+.bk-this-btn{margin-left:auto;
+  padding:8px 16px;
+  background:var(--red);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  white-space:nowrap;
+  flex-shrink:0;
+  text-decoration:none;
+  transition:background .15s;
+  display:inline-block;}
+.bk-this-btn:hover{background:var(--red2);}
+
+
+.rating-summary{display:flex;
+  align-items:center;
+  gap:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px 20px;
+  margin-bottom:24px;
+  flex-wrap:wrap;}
+.big-num{font-family:'Bebas Neue',sans-serif;
+font-size:56px;
+color:var(--gold);
+line-height:1;}
+.big-stars{font-size:20px;
+  color:var(--gold);
+  margin-bottom:3px;}
+.big-count{font-size:12px;
+  color:var(--muted);}
+.badge-genre{font-size:12px;
+  color:#c06060;
+  background:rgba(229,9,20,.1);
+  border:1px solid rgba(229,9,20,.2);
+  padding:4px 12px;
+  border-radius:20px;}
+
+
+.rev-form{background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  padding:20px 22px;
+  margin-bottom:26px;}
+.rev-form-title{font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  color:var(--muted);
+  margin-bottom:14px;}
+.star-row{display:flex;
+  gap:6px;
+  margin-bottom:14px;}
+.star{font-size:26px;
+  cursor:pointer;
+  color:var(--muted);
+  line-height:1;
+  transition:color .12s;}
+.star.active{color:var(--gold);}
+.textarea{width:100%;
+  background:var(--card2);
+  border:1px solid var(--border2);
+  border-radius:9px;
+  color:var(--text);
+  font-size:13px;
+  padding:11px 13px;
+  resize:vertical;
+  min-height:85px;
+  outline:none;
+  font-family:'DM Sans',sans-serif;
+  line-height:1.7;
+  transition:border-color .15s;}
+.textarea:focus{border-color:rgba(229,9,20,.4);}
+.textarea::placeholder{color:var(--muted);}
+.rev-form-foot{display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+  flex-wrap:wrap;}
+.rev-submit{padding:9px 22px;
+  background:var(--red);
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;}
+.rev-submit:hover{background:var(--red2);}
+.rev-msg{font-size:12px;}
+
+
+.notice-box{background:rgba(229,9,20,.07);
+  border:1px solid rgba(229,9,20,.22);
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:13px;
+  color:#ff9090;
+  margin-bottom:14px;
+  display:none;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;}
+.notice-box.show{display:flex;}
+
+
+.rev-list-title{font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.9px;color:var(--muted);
+  margin-bottom:14px;}
+.review-card{background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:14px 16px;
+  margin-bottom:10px;
+  transition:border-color .15s;}
+.review-card:hover{border-color:var(--border2);}
+.review-header{display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:9px;}
+.review-avatar{width:34px;
+  height:34px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+  color:#fff;
+  flex-shrink:0;}
+.review-name{font-size:13px;
+  font-weight:500;}
+.review-stars{font-size:12px;
+  color:var(--gold);}
+.review-verified{font-size:10px;
+  color:var(--green);margin-left:auto;}
+.review-text{font-size:13px;
+  color:var(--muted);line-height:1.75;}
+
+
+.btn{display:inline-flex;
+  align-items:center;
+  padding:10px 22px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  transition:all .18s;
+  font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--red);
+  color:#fff;}
+.btn-primary:hover{background:var(--red2);}
+.btn-outline{background:transparent;
+  color:var(--text);
+  border:1px solid var(--border2);}
+.btn-outline:hover{border-color:var(--red);
+  color:var(--red);}
+
+
+.footer{border-top:1px solid var(--border);
+  padding:24px 5%;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);}
+
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .3s ease both;}
+
+
+@media(max-width:640px){
+  .navbar{padding:12px 4%;}
+  .rev-layout{padding-left:4%;padding-right:4%;}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">CINE<span>WORLD</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Home</a>
+    <a href="details.html" class="nav-link" id="nav-det">Details</a>
+    <a href="booking.html" class="nav-link" id="nav-bk">Booking</a>
+    <a href="reviews.html" class="nav-link active">Reviews</a>
+    <a href="contact.html" class="nav-link" id="nav-con">Contact</a>
+  </div>
+</nav>
+
+<div class="switcher-bar" id="rev-switcher"></div>
+
+<div class="rev-layout">
+ 
+  <div class="rev-movie-bar fade-up">
+    <div class="rev-movie-icon" id="rev-icon"></div>
+    <div>
+      <div class="rev-movie-title" id="rev-movie-title"></div>
+      <div class="rev-movie-sub">Rate and review this movie</div>
+    </div>
+    <a href="#" class="bk-this-btn" id="bk-this-btn">Book Tickets</a>
+  </div>
+
+  <div class="rating-summary fade-up">
+    <div class="big-num"   id="rev-imdb"></div>
+    <div>
+      <div class="big-stars" id="rev-stars-disp"></div>
+      <div class="big-count">Audience score</div>
+    </div>
+    <div style="margin-left:auto;">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Genre</div>
+      <span class="badge-genre" id="rev-genre"></span>
+    </div>
+  </div>
+
+  
+  <div class="rev-form fade-up">
+    <div class="rev-form-title">Write a Review</div>
+    <div class="notice-box" id="notice-box">
+       You need to book a ticket before posting a review.
+      <a id="notice-bk-link" href="booking.html" style="color:var(--red);font-weight:500;text-decoration:none;">Book now →</a>
+    </div>
+    <div class="star-row" id="star-row">
+      <span class="star" onclick="setStar(1)">★</span>
+      <span class="star" onclick="setStar(2)">★</span>
+      <span class="star" onclick="setStar(3)">★</span>
+      <span class="star" onclick="setStar(4)">★</span>
+      <span class="star" onclick="setStar(5)">★</span>
+    </div>
+    <textarea class="textarea" id="rev-txt" placeholder="Share your thoughts about the movie..."></textarea>
+    <div class="rev-form-foot">
+      <button class="rev-submit" onclick="submitReview()">Post Review</button>
+      <span class="rev-msg" id="rev-msg"></span>
+    </div>
+  </div>
+
+  
+  <div class="rev-list-title">Audience Reviews</div>
+  <div id="rev-list"></div>
+</div>
+
+<footer class="footer"> Sagar's CineWorld. All rights reserved.
+</footer>
+
+
+<script>
+
+const MOVIES = {
+  interstellar:{
+    id:'interstellar',title:'Interstellar',img:'interstellar.jpeg',
+    imdb:'8.7',genre:'Sci-Fi',
+    showtimes:['10:30 AM','2:00 PM','6:00 PM','9:30 PM'],
+    reviews:[
+      {name:'Arjun M.',  init:'AM',color:'#9f0610',stars:5,
+      text:'Absolutely mind-blowing. The docking scene gave me chills every single time. Nolan at his absolute peak.'},
+      {name:'Priya S.',  init:'PS',color:'#185fa5',stars:4,
+      text:'Stunning visuals and an emotional rollercoaster. The third act is a bit dense but overall a masterpiece.'},
+      {name:'Ravi K.',   init:'RK',color:'#2e7d32',stars:5,
+      text:"Hans Zimmer's score elevates this to another dimension. Watch it on the biggest screen possible."},
+    ],
+  },
+  oppenheimer:{
+    id:'oppenheimer',title:'Oppenheimer',img:'oppenheimer.jpeg',
+    imdb:'8.9',genre:'Drama',
+    showtimes:['11:00 AM','3:00 PM','7:30 PM','10:00 PM'],
+    reviews:[
+      {name:'Sanjay P.', init:'SP',color:'#9f0610',stars:5,
+      text:'Cillian Murphy is simply extraordinary. The Trinity test sequence left me breathless. A genuine epic.'},
+      {name:'Meera N.',  init:'MN',color:'#185fa5',stars:5,
+      text:'Dense, complex, and completely riveting. One of the best films of the decade. Nolan at peak form.'},
+      {name:'Vikram T.', init:'VT',color:'#2e7d32',stars:4,
+      text:'Three hours flew by. The courtroom scenes are as tense as the bomb sequences. Brilliant all around.'},
+    ],
+  },
+  dune2:{
+    id:'dune2',title:'Dune: Part Two',img:'dune2.jpeg',
+    imdb:'8.5',genre:'Sci-Fi',
+    showtimes:['12:00 PM','4:00 PM','8:00 PM','11:00 PM'],
+    reviews:[
+      {name:'Ananya R.', init:'AR',color:'#9f0610',stars:5,
+      text:"The sandworm riding sequence is the most spectacular thing I've seen in a cinema in years. Jaw-dropping."},
+      {name:'Karthik L.',init:'KL',color:'#185fa5',stars:4,
+      text:'Villeneuve builds this world so patiently. Every frame is a painting. Zendaya is magnetic throughout.'},
+      {name:'Divya S.',  init:'DS',color:'#2e7d32',stars:5,
+      text:'The black-and-white Harkonnen sequences are pure art. Better than part one in every way.'},
+    ],
+  },
+  darkknight:{
+    id:'darkknight',title:'The Dark Knight',img:'darkknight.webp',
+    imdb:'9.0',genre:'Action',
+    showtimes:['1:00 PM','5:00 PM','8:00 PM','11:30 PM'],
+    reviews:[
+      {name:'Rahul M.',  init:'RM',color:'#9f0610',stars:5,
+      text:"Heath Ledger's Joker is one of the greatest performances in cinema history. This film is untouchable."},
+      {name:'Sneha K.',  init:'SK',color:'#185fa5',stars:5,
+      text:'Watched it for the 5th time and it only gets better. The interrogation scene is pure cinema.'},
+      {name:'Arun V.',   init:'AV',color:'#2e7d32',stars:5,
+      text:'A film that made me believe superhero movies can be serious art. The IMAX photography is still unmatched.'},
+    ],
+  },
+};
+
+
+let curMovieId='interstellar', curRating=0;
+
+let hasBooked = sessionStorage.getItem('hasBooked')==='1' || new URLSearchParams(window.location.search).get('booked')==='1';
+
+function getParam(k){return new URLSearchParams(window.location.search).get(k);}
+
+const sw=document.getElementById('rev-switcher');
+Object.values(MOVIES).forEach(m=>{
+  const btn=document.createElement('button');
+  btn.className='sw-tab'; btn.dataset.id=m.id;
+  btn.innerHTML=`${m.title}`;
+  btn.onclick=()=>switchMovie(m.id);
+  sw.appendChild(btn);
+});
+
+
+function switchMovie(id){
+  const m=MOVIES[id]; curMovieId=id;
+  document.querySelectorAll('.sw-tab').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  document.getElementById('rev-icon').innerHTML=`<img src="${m.img}" alt="${m.title}" style="width:38px;height:38px;object-fit:cover;border-radius:6px;">`;
+  document.getElementById('rev-movie-title').textContent=m.title;
+  document.getElementById('rev-imdb').textContent=m.imdb;
+  document.getElementById('rev-genre').textContent=m.genre;
+  const stars=Math.round(parseFloat(m.imdb)/2);
+  document.getElementById('rev-stars-disp').textContent='★'.repeat(stars)+'☆'.repeat(5-stars);
+  
+  const bkUrl=`booking.html?movie=${id}&time=${encodeURIComponent(m.showtimes[2])}`;
+  document.getElementById('bk-this-btn').href=bkUrl;
+  document.getElementById('notice-bk-link').href=bkUrl;
+  document.getElementById('nav-det').href=`details.html?movie=${id}`;
+  document.getElementById('nav-bk').href=bkUrl;
+
+  const list=document.getElementById('rev-list');
+  list.innerHTML='';
+  m.reviews.forEach(r=>list.appendChild(buildCard(r)));
+ 
+  setStar(0);
+  document.getElementById('rev-txt').value='';
+  document.getElementById('rev-msg').textContent='';
+  document.getElementById('notice-box').classList.remove('show');
+  document.title=`CineWorld | ${m.title} Reviews`;
+  history.replaceState(null,'',`?movie=${id}`);
+}
+
+function buildCard({name,init,color,stars,text}){
+  const d=document.createElement('div');
+  d.className='review-card fade-up';
+  d.innerHTML=`
+    <div class="review-header">
+      <div class="review-avatar" style="background:${color}">${init}</div>
+      <div>
+        <div class="review-name">${name}</div>
+        <div class="review-stars">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+      </div>
+      <div class="review-verified">✔ Verified watcher</div>
+    </div>
+    <div class="review-text">${text}</div>`;
+  return d;
+}
+
+
+function setStar(n){
+  curRating=n;
+  document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n));
+}
+
+
+function submitReview(){
+  const msg=document.getElementById('rev-msg');
+  const notice=document.getElementById('notice-box');
+  if(!hasBooked){notice.classList.add('show');return;}
+  notice.classList.remove('show');
+  if(!curRating){msg.style.color='#ff7070';msg.textContent='Please select a star rating.';return;}
+  const txt=document.getElementById('rev-txt').value.trim();
+  if(!txt){msg.style.color='#ff7070';msg.textContent='Please write something.';return;}
+  const list=document.getElementById('rev-list');
+  const card=buildCard({name:'You',init:'YU',color:'#534ab7',stars:curRating,text:txt});
+  card.style.borderColor='rgba(56,138,221,.35)';
+  list.prepend(card);
+  document.getElementById('rev-txt').value='';
+  setStar(0);
+  msg.style.color='#4caf50';msg.textContent='Review posted! Thank you.';
+  setTimeout(()=>msg.textContent='',3000);
+}
+
+
+const initMovie=getParam('movie')||sessionStorage.getItem('bookedMovie')||'interstellar';
+switchMovie(initMovie);
+</script>
+</body>
+</html>

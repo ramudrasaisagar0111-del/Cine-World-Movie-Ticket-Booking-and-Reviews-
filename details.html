@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineWorld | Movie Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;
+ --surface:#0d1018;
+ --card:#12151e;
+ --card2:#181c28;
+  --red:#e50914;
+  --red2:#9f0610;
+  --gold:#f5c518;
+  --green:#4caf50;
+  --text:#efefef;
+  --muted:#888fa0;
+  --faint:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.14);
+  --r:10px;--rl:14px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+line-height:1.6;
+-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;
+  color:inherit;}
+::-webkit-scrollbar{width:4px;
+  height:4px;}
+::-webkit-scrollbar-thumb{background:#252830;
+  border-radius:2px;}
+
+
+.navbar{display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 5%;
+  background:rgba(7,9,15,.97);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;z-index:100;
+  backdrop-filter:blur(16px);}
+.logo{font-family:'Bebas Neue',sans-serif;
+font-size:22px;
+letter-spacing:2.5px;}
+.logo span{color:var(--red);}
+.nav-links{display:flex;
+  gap:3px;
+  flex-wrap:wrap;}
+.nav-link{display:inline-block;
+  padding:7px 13px;
+  font-size:13px;
+  color:var(--muted);
+  border-radius:8px;
+  transition:background .15s,color .15s;}
+.nav-link:hover{background:var(--faint);
+  color:var(--text);}
+.nav-link.active{color:var(--red);
+  background:rgba(229,9,20,.1);}
+
+
+.switcher-bar{display:flex;
+  overflow-x:auto;
+  border-bottom:1px solid var(--border);
+  padding:0 5%;}
+.sw-tab{display:flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 16px 12px;
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  font-size:13px;color:var(--muted);
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:color .15s,border-color .15s;
+  font-family:'DM Sans',sans-serif;}
+.sw-tab:hover{color:var(--text);}
+.sw-tab.active{color:var(--text);border-bottom-color:var(--red);}
+
+
+.det-layout{display:flex;
+  gap:32px;
+  padding:36px 5% 60px;
+  align-items:flex-start;}
+.det-poster{min-width:200px;
+  width:200px;height:290px;
+  border-radius:var(--rl);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+  flex-shrink:0;
+  border:1px solid var(--border);}
+.det-info{flex:1;
+  min-width:0;}
+.det-title{font-family:'Bebas Neue',sans-serif;font-size:48px;
+letter-spacing:2px;line-height:1;margin-bottom:12px;}
+.det-pills{display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:10px;}
+.pill{display:inline-block;
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:20px;
+  background:var(--card2);
+  border:1px solid var(--border2);
+  color:var(--muted);}
+.pill-gold{background:rgba(245,197,24,.12);
+  border-color:rgba(245,197,24,.3);
+  color:#c8a100;}
+.pill-red{background:rgba(229,9,20,.1);
+  border-color:rgba(229,9,20,.25);
+  color:#e07070;}
+.det-director{font-size:13px;
+  color:var(--muted);
+  margin-bottom:14px;}
+
+
+.rating-block{display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--card2);
+  border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;
+  margin-bottom:20px;
+  width:fit-content;
+  flex-wrap:wrap;}
+.rating-big{font-family:'Bebas Neue',sans-serif;
+font-size:44px;
+color:var(--gold);
+line-height:1;}
+.rating-stars{font-size:15px;
+  color:var(--gold);
+  margin-bottom:2px;}
+.rating-source{font-size:11px;
+  color:var(--muted);}
+
+.det-desc{font-size:14px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-bottom:20px;
+  max-width:580px;}
+.slabel{font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  color:var(--muted);
+  margin-bottom:10px;}
+
+
+.cast-row{display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:18px;}
+.cast-chip{display:flex;
+  align-items:center;
+  gap:7px;
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:4px 12px 4px 4px;
+  font-size:12px;}
+.cast-avatar{width:26px;
+  height:26px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:600;
+  color:#fff;
+  flex-shrink:0;}
+
+
+.showtimes-row{display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:22px;}
+.showtime-btn{padding:7px 16px;
+  border-radius:8px;
+  font-size:13px;
+  border:1px solid var(--border2);
+  background:none;
+  cursor:pointer;
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  transition:all .15s;}
+.showtime-btn:hover,.showtime-btn.active{background:var(--red);
+  border-color:var(--red);
+  color:#fff;}
+
+
+.det-actions{display:flex;
+  gap:10px;
+  flex-wrap:wrap;}
+.btn{display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 22px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  transition:all .18s;
+  font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--red);
+  color:#fff;}
+.btn-primary:hover{background:var(--red2);
+  transform:translateY(-1px);}
+.btn-outline{background:transparent;
+  color:var(--text);
+  border:1px solid var(--border2);}
+.btn-outline:hover{border-color:var(--red);
+  color:var(--red);}
+
+
+.footer{border-top:1px solid var(--border);
+  padding:24px 5%;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);}
+
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .3s ease both;}
+
+
+@media(max-width:640px){
+  .navbar{padding:12px 4%;}
+  .det-layout{flex-direction:column;padding:24px 4% 50px;}
+  .det-poster{width:100%;height:210px;min-width:unset;}
+  .det-title{font-size:34px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">CINE<span>WORLD</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Home</a>
+    <a href="details.html" class="nav-link active">Details</a>
+    <a href="booking.html" class="nav-link" id="nav-bk">Booking</a>
+    <a href="reviews.html" class="nav-link" id="nav-rev">Reviews</a>
+    <a href="contact.html" class="nav-link" id="nav-con">Contact</a>  
+  </div>
+</nav>
+
+<div class="switcher-bar" id="switcher-bar"></div>
+
+<div class="det-layout fade-up">
+  <div class="det-poster" id="det-poster"></div>
+  <div class="det-info">
+    <div class="det-title"  id="det-title"></div>
+    <div class="det-pills"  id="det-pills"></div>
+    <div class="det-director" id="det-director"></div>
+    <div class="rating-block">
+      <div class="rating-big"   id="det-imdb-num"></div>
+      <div>
+        <div class="rating-stars"  id="det-imdb-stars"></div>
+        <div class="rating-source">IMDb Rating</div>
+      </div>
+    </div>
+    <p  class="det-desc"    id="det-desc"></p>
+    <div class="slabel">Cast</div>
+    <div class="cast-row"   id="det-cast"></div>
+    <div class="slabel">Showtimes — Today</div>
+    <div class="showtimes-row" id="det-showtimes"></div>
+    <div class="det-actions">
+      <a href="#" class="btn btn-primary" id="det-bk-btn">Book Tickets</a>
+      <a href="#" class="btn btn-outline"  id="det-rev-btn">Read Reviews</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"> Sagar's CineWorld. All rights reserved.</footer>
+
+<script>
+const MOVIES = {
+  interstellar:{
+    id:'interstellar',title:'Interstellar',img:'interstellar.jpeg',
+     year:'2014',duration:'2h 49m',rating:'PG-13',imdb:'8.7',genre:'Sci-Fi',director:'Christopher Nolan',
+     bg:'linear-gradient(150deg,#061428,#1a0808)',
+     desc:"A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.When Earth's crops begin to fail, a former NASA pilot leads a mission to find a habitable world beyond our galaxy.",
+     cast:[{name:'Matthew McConaughey',init:'MM',color:'#9f0610'},{name:'Anne Hathaway',init:'AH',color:'#185fa5'},{name:'Jessica Chastain',init:'JC',color:'#2e7d32'},{name:'Michael Caine',init:'MC',color:'#534ab7'}],
+    showtimes:['10:30 AM','2:00 PM','6:00 PM','9:30 PM'],
+  },
+  oppenheimer:{id:'oppenheimer',
+    title:'Oppenheimer',
+    img:'oppenheimer.jpeg',
+     year:'2023',
+     duration:'3h 0m',
+     rating:'R',
+     imdb:'8.9',
+     genre:'Drama',
+     director:'Christopher Nolan',
+     bg:'linear-gradient(150deg,#1a0e00,#080808)',
+    desc:"The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during WWII. A gripping biographical thriller about genius, guilt, and the birth of the nuclear age.",
+    cast:[{name:'Cillian Murphy',init:'CM',color:'#9f0610'},{name:'Emily Blunt',init:'EB',color:'#185fa5'},{name:'Matt Damon',init:'MD',color:'#2e7d32'},{name:'Robert Downey Jr.',init:'RD',color:'#7b4f00'}],
+    showtimes:['11:00 AM','3:00 PM','7:30 PM','10:00 PM'],
+  },
+  dune2:{
+    id:'dune2',
+    title:'Dune: Part Two',
+    img:'dune2.jpeg',
+    year:'2024',
+    duration:'2h 46m',
+    rating:'PG-13',
+    imdb:'8.5',
+    genre:'Sci-Fi',
+    director:'Denis Villeneuve',
+    bg:'linear-gradient(150deg,#1a1200,#05040a)',
+    desc:"Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family. He must make a choice between love and the fate of the known universe.",
+    cast:[{name:'Timothée Chalamet',init:'TC',color:'#9f0610'},{name:'Zendaya',init:'ZE',color:'#185fa5'},{name:'Rebecca Ferguson',init:'RF',color:'#2e7d32'},{name:'Austin Butler',init:'AB',color:'#534ab7'}],
+    showtimes:['12:00 PM','4:00 PM','8:00 PM','11:00 PM'],
+  },
+  darkknight:{
+    id:'darkknight',
+    title:'The Dark Knight',
+    img:'darkknight.webp',
+    year:'2008',
+    duration:'2h 32m',
+    rating:'PG-13',
+    imdb:'9.0',
+    genre:'Action',
+    director:'Christopher Nolan',
+    bg:'linear-gradient(150deg,#050508,#120e04)',
+    desc:"When the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological tests of his ability to fight injustice. A superhero film that transcends the genre.",
+    cast:[{name:'Christian Bale',init:'CB',color:'#9f0610'},{name:'Heath Ledger',init:'HL',color:'#185fa5'},{name:'Aaron Eckhart',init:'AE',color:'#2e7d32'},{name:'Maggie Gyllenhaal',init:'MG',color:'#534ab7'}],
+    showtimes:['1:00 PM','5:00 PM','8:00 PM','11:30 PM'],
+  },
+};
+
+let curId='interstellar', curTime='6:00 PM';
+
+function getParam(k){return new URLSearchParams(window.location.search).get(k);}
+
+
+const bar=document.getElementById('switcher-bar');
+Object.values(MOVIES).forEach(m=>{
+  const btn=document.createElement('button');
+  btn.className='sw-tab'; btn.dataset.id=m.id;
+  btn.innerHTML=`${m.title}`;
+  btn.onclick=()=>switchMovie(m.id);
+  bar.appendChild(btn);
+});
+
+function switchMovie(id){
+  const m=MOVIES[id]; curId=id; curTime=m.showtimes[2];
+  document.querySelectorAll('.sw-tab').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+
+  const poster=document.getElementById('det-poster');
+  poster.innerHTML=`<img src="${m.img}" alt="${m.title}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">`;
+  poster.style.background=m.bg;
+
+  document.getElementById('det-title').textContent=m.title;
+  document.getElementById('det-director').textContent='Directed by '+m.director;
+  document.getElementById('det-desc').textContent=m.desc;
+  document.getElementById('det-imdb-num').textContent=m.imdb;
+  const stars=Math.round(parseFloat(m.imdb)/2);
+  document.getElementById('det-imdb-stars').textContent='★'.repeat(stars)+'☆'.repeat(5-stars);
+
+  document.getElementById('det-pills').innerHTML=`
+    <span class="pill">${m.year}</span>
+    <span class="pill">${m.duration}</span>
+    <span class="pill">${m.rating}</span>
+    <span class="pill pill-gold">★ ${m.imdb} IMDb</span>
+    <span class="pill pill-red">${m.genre}</span>`;
+
+  document.getElementById('det-cast').innerHTML=m.cast.map(c=>`
+    <div class="cast-chip">
+      <div class="cast-avatar" style="background:${c.color}">${c.init}</div>
+      ${c.name}
+    </div>`).join('');
+
+  document.getElementById('det-showtimes').innerHTML=m.showtimes.map((t,i)=>`
+    <button class="showtime-btn${i===2?' active':''}" onclick="pickTime(this,'${t}')">${t}</button>`).join('');
+
+  updateLinks();
+  document.title=`CineWorld | ${m.title}`;
+  history.replaceState(null,'',`?movie=${id}`);
+}
+
+function pickTime(btn,time){
+  document.querySelectorAll('#det-showtimes .showtime-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); curTime=time; updateLinks();
+}
+
+function updateLinks(){
+  document.getElementById('det-bk-btn').href=`booking.html?movie=${curId}&time=${encodeURIComponent(curTime)}`;
+  document.getElementById('det-rev-btn').href=`reviews.html?movie=${curId}`;
+  document.getElementById('nav-bk').href=`booking.html?movie=${curId}&time=${encodeURIComponent(curTime)}`;
+  document.getElementById('nav-rev').href=`reviews.html?movie=${curId}`;
+}
+
+switchMovie(getParam('movie')||'interstellar');
+</script>
+</body>
+</html>

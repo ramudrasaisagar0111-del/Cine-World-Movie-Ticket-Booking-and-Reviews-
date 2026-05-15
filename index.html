@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineWorld | Now Showing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;--surface:#0d1018;--card:#12151e;--card2:#181c28;
+  --red:#e50914;--red2:#9f0610;--gold:#f5c518;--green:#4caf50;
+  --text:#efefef;--muted:#888fa0;--faint:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+  --r:10px;--rl:14px;
+}
+
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+line-height:1.6;
+-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:#252830;border-radius:2px;}
+
+.navbar{display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 5%;
+  background:rgba(7,9,15,.97);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;z-index:100;
+  backdrop-filter:blur(16px);}
+.logo{font-family:'Bebas Neue',sans-serif;
+font-size:22px;
+letter-spacing:2.5px;}
+.logo span{color:var(--red);}
+.nav-links{display:flex;
+  gap:3px;
+  flex-wrap:wrap;}
+.nav-link{display:inline-block;
+  padding:7px 13px;
+  font-size:13px;
+  color:var(--muted);
+  border-radius:8px;
+  transition:background .15s,color .15s;}
+.nav-link:hover{background:var(--faint);
+  color:var(--text);}
+.nav-link.active{color:var(--red);
+  background:rgba(229,9,20,.1);}
+
+.hero{text-align:center;
+  padding:56px 5% 36px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(229,9,20,.08),transparent);}
+.hero-title{font-family:'Bebas Neue',sans-serif;
+font-size:64px;
+letter-spacing:4px;
+line-height:1;
+margin-bottom:10px;}
+.hero-sub{font-size:14px;
+  color:var(--muted);
+  max-width:400px;
+  margin:0 auto 32px;}
+.hero-stats{display:flex;
+  gap:36px;
+  justify-content:center;
+  flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;
+font-size:32px;
+color:var(--red);
+letter-spacing:1px;}
+.stat-lbl{font-size:11px;
+  color:var(--muted);
+  letter-spacing:.5px;}
+
+.filter-row{display:flex;
+  gap:7px;
+  justify-content:center;
+  padding:28px 5% 22px;
+  flex-wrap:wrap;}
+.ftab{padding:6px 18px;
+  border-radius:20px;
+  font-size:12px;
+  border:1px solid var(--border2);
+  background:none;cursor:pointer;
+  color:var(--muted);
+  font-family:'DM Sans',sans-serif;
+  transition:all .18s;}
+.ftab:hover{color:var(--text);
+  background:var(--faint);}
+.ftab.active{background:var(--red);
+  border-color:var(--red);
+  color:#fff;}
+
+.section-hdr{display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5% 16px;}
+.section-lbl{font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  color:var(--muted);}
+
+.grid-wrap{padding:0 5% 60px;}
+.movie-grid{display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:18px;}
+.movie-card{background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  overflow:hidden;
+  cursor:pointer;
+  transition:border-color .2s,transform .22s;}
+.movie-card:hover{border-color:var(--border2);
+  transform:translateY(-5px);}
+.movie-poster{height:250px;display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:72px;
+  position:relative;
+  overflow:hidden;}
+.movie-poster::after{content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 55%);}
+.movie-body{padding:14px 15px 16px;}
+.movie-title{font-size:14px;
+  font-weight:500;
+  margin-bottom:3px;}
+.movie-meta{font-size:11px;
+  color:var(--muted);
+  margin-bottom:9px;}
+.movie-tags{display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:12px;}
+.badge-rating{display:inline-flex;
+  align-items:center;
+  gap:3px;
+  font-size:11px;
+  font-weight:500;
+  color:#c8a100;
+  background:rgba(245,197,24,.13);
+  padding:2px 8px;
+  border-radius:20px;}
+.badge-genre{font-size:10px;
+  color:#c06060;
+  background:rgba(229,9,20,.1);
+  border:1px solid rgba(229,9,20,.2);
+  padding:2px 8px;
+  border-radius:20px;}
+.movie-actions{display:flex;
+  gap:8px;}
+.btn{display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 16px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  border:none;
+  transition:all .18s
+  ;font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--red);
+  color:#fff;}
+.btn-primary:hover{background:var(--red2);}
+.btn-outline{background:transparent;
+  color:var(--text);
+  border:1px solid var(--border2);}
+.btn-outline:hover{border-color:var(--red);
+  color:var(--red);}
+
+.footer{border-top:1px solid var(--border);
+  padding:24px 5%;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .3s ease both;}
+
+@media(max-width:640px){
+  .navbar{padding:12px 4%;}
+  .hero-title{font-size:42px;}
+  .movie-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+    gap:12px;}
+  .movie-poster{height:200px;
+    font-size:55px;}
+  .grid-wrap,.filter-row,.section-hdr{padding-left:4%;
+    padding-right:4%;}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">CINE<span>WORLD</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link active">Home</a>
+    <a href="details.html" class="nav-link">Details</a>
+    <a href="booking.html" class="nav-link">Booking</a>
+    <a href="reviews.html" class="nav-link">Reviews</a>
+    <a href="contact.html" class="nav-link" id="nav-con">Contact</a>
+  </div>
+</nav>
+
+<div class="hero fade-up">
+  <div class="hero-title">Now Showing</div>
+  <p class="hero-sub">Book your seats for the biggest blockbusters on the big screen today</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Movies</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Screens</div></div>
+    <div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Daily Shows</div></div>
+    <div class="stat"><div class="stat-num">152</div><div class="stat-lbl">Seats Per Screen</div></div>
+  </div>
+</div>
+
+<div class="filter-row">
+  <button class="ftab active" onclick="filterMovies('all',this)">All</button>
+  <button class="ftab" onclick="filterMovies('Sci-Fi',this)">Sci-Fi</button>
+  <button class="ftab" onclick="filterMovies('Action',this)">Action</button>
+  <button class="ftab" onclick="filterMovies('Drama',this)">Drama</button>
+</div>
+
+<div class="section-hdr">
+  <span class="section-lbl">In Cinemas</span>
+  <span id="count-lbl" style="font-size:12px;color:var(--muted);">4 movies</span>
+</div>
+
+<div class="grid-wrap">
+  <div class="movie-grid" id="movie-grid"></div>
+</div>
+
+<footer class="footer"> Sagar's CineWorld. All rights reserved.</footer>
+
+<script>
+const MOVIES = {
+  interstellar:{id:'interstellar',
+  title:'Interstellar',
+  img:'interstellar.jpeg',
+   year:'2014',
+   duration:'2h 49m',
+   rating:'PG-13',
+   imdb:'8.7',
+   genre:'Sci-Fi',
+   director:'Christopher Nolan',
+   bg:'linear-gradient(150deg,#061428,#1a0808)',
+   showtimes:['10:30 AM','2:00 PM','6:00 PM','9:30 PM']},
+
+  oppenheimer:{id:'oppenheimer',
+  title:'Oppenheimer',
+  img:'oppenheimer.jpeg',
+   year:'2023',
+   duration:'3h 0m',
+   rating:'R',
+   imdb:'8.9',
+   genre:'Drama',
+   director:'Christopher Nolan',
+   bg:'linear-gradient(150deg,#1a0e00,#080808)',
+   showtimes:['11:00 AM','3:00 PM','7:30 PM','10:00 PM']},
+
+  dune2:{id:'dune2',
+  title:'Dune: Part Two',
+  img:'dune2.jpeg',
+  year:'2024',
+  duration:'2h 46m',
+  rating:'PG-13',
+  imdb:'8.5',
+  genre:'Sci-Fi',
+  director:'Denis Villeneuve',
+  bg:'linear-gradient(150deg,#1a1200,#05040a)',
+  showtimes:['12:00 PM','4:00 PM','8:00 PM','11:00 PM']},
+
+  darkknight:{id:'darkknight',
+  title:'The Dark Knight',
+  img:'darkknight.webp',
+  year:'2008',
+  duration:'2h 32m',
+  rating:'PG-13',
+  imdb:'9.0',
+  genre:'Action',
+  director:'Christopher Nolan',
+  bg:'linear-gradient(150deg,#050508,#120e04)',
+  showtimes:['1:00 PM','5:00 PM','8:00 PM','11:30 PM']},
+};
+
+function renderMovies(filter){
+  const grid=document.getElementById('movie-grid');
+  grid.innerHTML='';
+  const list=Object.values(MOVIES).filter(m=>!filter||filter==='all'||m.genre===filter);
+  document.getElementById('count-lbl').textContent=list.length+' movie'+(list.length!==1?'s':'');
+  list.forEach((m,i)=>{
+    const card=document.createElement('div');
+    card.className='movie-card fade-up';
+    card.style.animationDelay=(i*.07)+'s';
+    card.innerHTML=`
+      <div class="movie-poster" style="background:${m.bg};padding:0;overflow:hidden;" onclick="location.href='details.html?movie=${m.id}'">
+  <img src="${m.img}" alt="${m.title}" style="width:100%;height:100%;object-fit:cover;">
+</div>
+      <div class="movie-body">
+        <div class="movie-title">${m.title}</div>
+        <div class="movie-meta">${m.year} · ${m.duration} · ${m.rating}</div>
+        <div class="movie-tags">
+          <span class="badge-rating">★ ${m.imdb}</span>
+          <span class="badge-genre">${m.genre}</span>
+        </div>
+        <div class="movie-actions">
+          <a href="details.html?movie=${m.id}" class="btn btn-outline">Details</a>
+          <a href="booking.html?movie=${m.id}&time=${encodeURIComponent(m.showtimes[2])}" class="btn btn-primary">Book now</a>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function filterMovies(genre,btn){
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMovies(genre);
+}
+
+renderMovies('all');
+</script>
+</body>
+</html>

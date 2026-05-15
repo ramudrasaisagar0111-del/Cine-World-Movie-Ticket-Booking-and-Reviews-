@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineWorld | Now Showing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;
+  --surface:#0d1018;
+  --card:#12151e;
+  --card2:#181c28;
+  --red:#e50914;
+  --red2:#9f0610;
+  --gold:#f5c518;
+  --green:#4caf50;
+  --text:#efefef;
+  --muted:#888fa0;
+  --faint:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.14);
+  --r:10px;--rl:14px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif; 
+background:var(--bg);
+color:var(--text);  
+min-height:100vh;
+line-height:1.6;
+-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;
+  color:inherit;}
+::-webkit-scrollbar{width:4px;
+  height:4px;}
+::-webkit-scrollbar-thumb{background:#252830;
+  border-radius:2px;}    
+.navbar{display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 5%;
+  background:rgba(7,9,15,.97);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;z-index:100;
+  backdrop-filter:blur(16px);}
+.logo{font-family:'Bebas Neue',sans-serif;
+font-size:22px;
+letter-spacing:2.5px;}
+.logo span{color:var(--red);}               
+.nav-links{display:flex;
+  gap:3px;
+  flex-wrap:wrap;}
+.nav-link{display:inline-block;
+  padding:7px 13px;
+  font-size:13px;
+  color:var(--muted);
+  border-radius:8px;
+  transition:background .15s,color .15s;}
+.nav-link:hover{background:var(--faint);
+    color:var(--text);}
+.nav-link.active{color:var(--red);
+  background:rgba(229,9,20,.1);}
+.hero{text-align:center;
+    padding:56px 5% 36px;
+    background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(229,9,20,.08),transparent);}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">CINE<span>WORLD</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Home</a>
+    <a href="details.html" class="nav-link">Details</a>
+    <a href="booking.html" class="nav-link" id="nav-bk">Booking</a>
+    <a href="reviews.html" class="nav-link" id="nav-rev">Reviews</a>
+    <a href="contact.html" class="nav-link active" id="nav-con">Contact</a>     
+  </div>
+</nav>
+<div class="hero">
+  <h1>Contact Us</h1>
+  <p>Have questions or feedback? We'd love to hear from you! Reach out to us through any of the following channels:</p>
+  <ul>
+    <b>Email: <a href="mailto:ramudrasaisagar0111@gmail.com">ramudrasaisagar0111@gmail.com</a><b><br>
+    <p>Phone: +91 xxx xxx xxxxx<p>
+    <p>Our customer support team is available 24/7 to assist you with any inquiries or issues you may have. We value your feedback and are committed to providing the best possible experience for our customers.</p>
+</div>
+
+</body>
+</html>
